@@ -1,56 +1,66 @@
 #include <stdio.h>
 #include <math.h>
 
-// Fungsi f(x) = x^2 - 6x + 8
+// Definisikan fungsi f(x) = 5x * e^(-x) - 1
 double f(double x)
 {
-    return x * x - 6 * x + 8;
+    return 5 * x * exp(-x) - 1;
 }
 
 int main()
 {
-    double a = 3.0, b = 6.0, c, toleransi = 0.01;
-    int iterasi = 0;
+    double a, b, c, fa, fb, fc;
+    double tolerance = 0.0001; // Toleransi error
+    int max_iterations = 100;  // Batas maksimal iterasi
+    int iteration = 0;
 
-    // Pastikan bahwa f(a) * f(b) < 0
-    if (f(a) * f(b) >= 0)
+    // Masukkan nilai awal interval [a, b]
+    printf("Masukkan nilai awal a: ");
+    scanf("%lf", &a);
+    printf("Masukkan nilai awal b: ");
+    scanf("%lf", &b);
+
+    fa = f(a);
+    fb = f(b);
+
+    // Pastikan f(a) dan f(b) berlawanan tanda
+    if (fa * fb > 0)
     {
-        printf("Tidak ada akar dalam interval ini.\n");
-        return 1;
+        printf("Kesalahan: f(a) dan f(b) harus memiliki tanda berlawanan.\n");
+        return -1;
     }
 
-    printf("Iterasi\t\ta\t\tb\t\tc\t\tf(c)\n");
-    do
+    // Iterasi Regula Falsi
+    while (iteration < max_iterations)
     {
-        // Hitung nilai c dengan metode Regula Falsi
-        c = b - (f(b) * (b - a)) / (f(b) - f(a));
-        double fc = f(c);
+        // Hitung c menggunakan formula Regula Falsi
+        c = b - (fb * (b - a)) / (fb - fa);
+        fc = f(c);
 
-        // Tampilkan hasil iterasi
-        printf("%d\t\t%.6f\t%.6f\t%.6f\t%.6f\n", iterasi + 1, a, b, c, fc);
+        printf("Iterasi %d: c = %lf, f(c) = %lf\n", iteration + 1, c, fc);
 
-        if (fabs(fc) <= toleransi)
+        // Periksa apakah solusi telah ditemukan dengan toleransi yang ditentukan
+        if (fabs(fc) < tolerance)
         {
-            break; // Akar ditemukan
+            printf("Akar ditemukan: %lf\n", c);
+            return 0;
         }
 
-        // Tentukan interval baru
-        if (f(a) * fc < 0)
+        // Tentukan interval baru [a, c] atau [c, b]
+        if (fa * fc < 0)
         {
             b = c;
+            fb = fc;
         }
         else
         {
             a = c;
+            fa = fc;
         }
 
-        iterasi++;
+        iteration++;
+    }
 
-    } while (fabs(f(c)) > toleransi); // Ulangi sampai toleransi tercapai
-
-    // Tampilkan hasil akhir
-    printf("\nAkar persamaan ditemukan pada x = %.6f setelah %d iterasi.\n", c, iterasi);
-    printf("Nilai f(c) adalah %.6f\n", f(c));
-
-    return 0;
+    printf("Akar tidak ditemukan dalam %d iterasi.\n", max_iterations);
+    return -1;
 }

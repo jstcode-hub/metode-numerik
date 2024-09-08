@@ -1,34 +1,66 @@
 #include <stdio.h>
 #include <math.h>
 
-// Definisi fungsi f(x)
+// Fungsi yang akan dicari akarnya
 double f(double x)
 {
-    return 5 * x * exp(-x) - 1;
+    return x * x - 3 * x + 2;
+}
+
+// Fungsi untuk melakukan Metode Tabel
+void tabel_method(double a, double b, double h)
+{
+    double x = a;
+    double fx, fxh;
+
+    // Header tabel
+    printf("|    x    |   f(x)   |\n");
+    printf("----------------------\n");
+
+    while (x <= b)
+    {
+        fx = f(x);      // Hitung f(x) untuk titik saat ini
+        fxh = f(x + h); // Hitung f(x+h) untuk titik berikutnya
+
+        // Tampilkan nilai f(x) di setiap iterasi
+        printf("| %7.4f | %8.4f |\n", x, fx);
+
+        // Periksa apakah f(x) dan f(x+h) berlawanan tanda
+        if (fx * fxh < 0)
+        {
+            printf("----------------------\n");
+            printf("Akar ditemukan antara x = %.4f dan x = %.4f\n", x, x + h);
+
+            // Tentukan titik mana yang lebih dekat dengan akar
+            if (fabs(fx) < fabs(fxh))
+            {
+                printf("Akar lebih dekat ke x = %.4f\n", x);
+            }
+            else
+            {
+                printf("Akar lebih dekat ke x = %.4f\n", x + h);
+            }
+            return;
+        }
+
+        // Tingkatkan nilai x dengan langkah h
+        x += h;
+    }
+
+    // Jika tidak ada akar yang ditemukan
+    printf("----------------------\n");
+    printf("Akar tidak ditemukan dalam interval yang diberikan.\n");
 }
 
 int main()
 {
-    double a = 0.0, b = 0.5, step = 0.05;
-    double x, fx, fx_next;
+    // Interval awal [a, b]
+    double a = -4.0, b = 2.0;
+    // Langkah (step size)
+    double h = 0.6;
 
-    printf("|   x    |   f(x)    |\n");
-    printf("----------------------\n");
-
-    for (x = a; x <= b; x += step)
-    {
-        fx = f(x);
-        fx_next = f(x + step);
-
-        // Mencetak nilai x dan f(x)
-        printf("| %6.2f | %9.6f |\n", x, fx);
-
-        // Jika tanda f(x) dan f(x + step) berbeda, maka ada akar di antara keduanya
-        if (fx * fx_next < 0)
-        {
-            printf("Akar ditemukan di antara x = %.2f dan x = %.2f\n", x, x + step);
-        }
-    }
+    // Menjalankan metode tabel
+    tabel_method(a, b, h);
 
     return 0;
 }

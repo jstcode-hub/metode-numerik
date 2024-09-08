@@ -23,7 +23,7 @@ void bisection(double a, double b, double tol)
     printf("| Iterasi |      a      |    f(a)    |      b      |    f(b)    |      c      |    f(c)    |   b - a   |\n");
     printf("-----------------------------------------------------------------------------------------------------\n");
 
-    while ((b - a) > tol) // Ubah dari >= menjadi > untuk memastikan break saat panjang interval < tol
+    while (1)
     {
         // Mencari titik tengah
         c = (a + b) / 2;
@@ -40,6 +40,16 @@ void bisection(double a, double b, double tol)
         else
         {
             a = c;
+        }
+
+        // Jika selisih b-a sudah kurang dari toleransi, tampilkan iterasi ini
+        if (b - a < tol)
+        {
+            // Tampilkan iterasi terakhir di mana b-a sudah kurang dari toleransi
+            c = (a + b) / 2;
+            printf("|   %2d    |  %9.6f |  %9.6f |  %9.6f |  %9.6f |  %9.6f |  %9.6f | %9.6f |\n",
+                   iterasi + 1, a, f(a), b, f(b), c, f(c), b - a);
+            break;
         }
 
         iterasi++;
