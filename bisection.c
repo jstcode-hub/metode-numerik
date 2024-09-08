@@ -1,47 +1,63 @@
 #include <stdio.h>
 #include <math.h>
 
-// Mendefinisikan fungsi f(x)
+// Fungsi yang akan dicari akarnya
 double f(double x)
 {
-    // return pow(x, 3) - 7 * x + 1;
     return x * x - 6 * x + 8;
+}
+
+// Fungsi untuk melakukan metode biseksi
+void bisection(double a, double b, double tol)
+{
+    if (f(a) * f(b) >= 0)
+    {
+        printf("Tidak ada akar di interval tersebut.\n");
+        return;
+    }
+
+    double c;
+    int iterasi = 1;
+
+    // Header tabel
+    printf("| Iterasi |      a      |    f(a)    |      b      |    f(b)    |      c      |    f(c)    |   b - a   |\n");
+    printf("-----------------------------------------------------------------------------------------------------\n");
+
+    while ((b - a) > tol) // Ubah dari >= menjadi > untuk memastikan break saat panjang interval < tol
+    {
+        // Mencari titik tengah
+        c = (a + b) / 2;
+
+        // Mencetak hasil per iterasi, termasuk nilai b-a
+        printf("|   %2d    |  %9.6f |  %9.6f |  %9.6f |  %9.6f |  %9.6f |  %9.6f | %9.6f |\n",
+               iterasi, a, f(a), b, f(b), c, f(c), b - a);
+
+        // Tentukan subinterval yang baru
+        if (f(c) * f(a) < 0)
+        {
+            b = c;
+        }
+        else
+        {
+            a = c;
+        }
+
+        iterasi++;
+    }
+
+    printf("-----------------------------------------------------------------------------------------------------\n");
+    printf("Akar yang ditemukan: %9.6f\n", c);
 }
 
 int main()
 {
-    double a, b, c, toleransi;
-    int iterasi = 0;
+    // Interval awal [a, b]
+    double a = 3, b = 6;
+    // Toleransi kesalahan
+    double tol = 0.0005;
 
-    a = 3.0;
-    b = 6.0;
-    toleransi = 0.0005;
-
-    // Metode bisection
-    do
-    {
-        c = (a + b) / 2;
-
-        if (f(c) == 0.0)
-        {
-            break; // Akar ditemukan
-        }
-        else if (f(a) * f(c) < 0.0)
-        {
-            b = c; // Akar berada di antara a dan c
-        }
-        else
-        {
-            a = c; // Akar berada di antara c dan b
-        }
-
-        iterasi++;
-
-    } while (fabs(f(c)) > toleransi); // Cek nilai error terhadap toleransi
-
-    // Tampilkan hasil
-    printf("Akar persamaan ditemukan pada x = %.5f setelah %d iterasi.\n", c, iterasi);
-    printf("Nilai f(c) adalah %.5f\n", f(c));
+    // Menjalankan metode biseksi
+    bisection(a, b, tol);
 
     return 0;
 }
