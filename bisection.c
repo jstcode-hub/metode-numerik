@@ -61,10 +61,21 @@ void bisection(double a, double b, double tol)
 
 int main()
 {
-    // Interval awal [a, b]
-    double a = 3, b = 6;
-    // Toleransi kesalahan
-    double tol = 0.0005;
+    double a, b, tol;
+
+    printf("Masukkan nilai awal a: ");
+    scanf("%lf", &a);
+
+    printf("Masukkan nilai awal b: ");
+    scanf("%lf", &b);
+
+    printf("Masukkan toleransi: ");
+    scanf("%lf", &tol);
+
+    // // Interval awal [a, b]
+    // double a = 3, b = 6;
+    // // Toleransi kesalahan
+    // double tol = 0.0005;
 
     // Menjalankan metode biseksi
     bisection(a, b, tol);

@@ -54,10 +54,21 @@ void tabel_method(double a, double b, double h)
 
 int main()
 {
-    // Interval awal [a, b]
-    double a = -4.0, b = 2.0;
-    // Langkah (step size)
-    double h = 0.6;
+    double a, b, h;
+
+    printf("Masukkan nilai awal a: ");
+    scanf("%lf", &a);
+
+    printf("Masukkan nilai awal b: ");
+    scanf("%lf", &b);
+
+    printf("Masukkan nilai langkah h: ");
+    scanf("%lf", &h);
+
+    // // Interval awal [a, b]
+    // double a = -4.0, b = 2.0;
+    // // Langkah (step size)
+    // double h = 0.6;
 
     // Menjalankan metode tabel
     tabel_method(a, b, h);

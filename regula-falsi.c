@@ -4,14 +4,14 @@
 // Definisikan fungsi f(x) = 5x * e^(-x) - 1
 double f(double x)
 {
-    return 5 * x * exp(-x) - 1;
+    return x * x - 2 * x - 8;
 }
 
 int main()
 {
     double a, b, c, fa, fb, fc;
-    double tolerance = 0.0001; // Toleransi error
-    int max_iterations = 100;  // Batas maksimal iterasi
+    double tolerance = 0.01;  // Toleransi error
+    int max_iterations = 100; // Batas maksimal iterasi
     int iteration = 0;
 
     // Masukkan nilai awal interval [a, b]
